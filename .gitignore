@@ -1,0 +1,14 @@
+
+# Folders to ignore
+
+Include/
+Lib/
+Libs/
+Scripts/
+__pycache__/
+share/
+
+
+# Files to ignore
+*.log
+*.cfg
