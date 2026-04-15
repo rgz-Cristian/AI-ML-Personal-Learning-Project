@@ -32,9 +32,6 @@ class SgdMLP:
         return X_input
 
     def backward(self, X, y):
-
-        self.predict(X)
-
         delta_list = self.delta_backward(y)
 
         for delta_l, layer, inputs in zip(delta_list, self.layers_list, self.y_output):
@@ -59,8 +56,24 @@ class SgdMLP:
         delta_list.reverse()
         return delta_list
 
-    def fit(self, X, y):
-        self.backward(X, y)
+    def train(self, X, y, epochs, error_tolerance=0.01):
+        
+        for epoch in range(epochs):
+            mse = 0
+            for x, y in zip(inputs_bits, output_XOR):
+                self.predict(x)
+                mse += np.mean((y - self.y_output[-1]) ** 2)
+                
+                self.backward(X, y)
+            
+            if mse < error_tolerance:
+                print(f"Last epoch: {epoch} with MSE: {mse}")
+                break
+            
+            if epoch % 500 == 0:
+                print(f"Epoch {epoch + 1}, MSE: {mse}")
+        
+    
 
 
 inputs_bits = np.array(
@@ -78,12 +91,7 @@ mlp = SgdMLP(
     layers=[(2, 3, "leaky_relu"), (3, 2, "leaky_relu"), (2, 1, "sigmoid")],
     learning_rate=0.5,
 )
-
-for epoch in range(5000):
-    if epoch % 1000 == 0:
-        print(mlp.layers_list[0].neurons[0].weights)
-    for x, y in zip(inputs_bits, output_XOR):
-        mlp.fit(x, y)
+mlp.train(inputs_bits, output_XOR, epochs=5000, error_tolerance=0.01)
 
 for x, y in zip(inputs_bits, output_XOR):
     y_pred = mlp.predict(x)
