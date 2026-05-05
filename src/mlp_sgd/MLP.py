@@ -1,11 +1,13 @@
 import numpy as np
 
-from Layer import Layer
-import funcs
+from .Layer import Layer
+from . import funcs
+
 
 
 class SgdMLP:
-
+    
+    
     def __init__(self, layers, learning_rate) -> None:
         self.layers_list = self.__init_layers(layers, learning_rate)
         self.learning_rate = learning_rate
@@ -57,43 +59,32 @@ class SgdMLP:
         return delta_list
 
     def train(self, X, y, epochs, error_tolerance=0.01):
+        epoch_errors = []
         
         for epoch in range(epochs):
-            mse = 0
-            for x, y in zip(inputs_bits, output_XOR):
+            epoch_loss = 0
+            # Evitamos sobreescribir 'y' usando 'target'
+            for x, target in zip(X, y):
                 self.predict(x)
-                mse += np.mean((y - self.y_output[-1]) ** 2)
-                
-                self.backward(X, y)
+                loss = np.mean((target - self.y_output[-1]) ** 2)
+                epoch_loss += loss
+                self.backward(x, target)
+            
+            # Promedio de MSE global de la época
+            mse = epoch_loss / len(X)
+            epoch_errors.append(mse)
             
             if mse < error_tolerance:
                 print(f"Last epoch: {epoch} with MSE: {mse}")
                 break
             
-            if epoch % 500 == 0:
+            if epoch % 100 == 0:
                 print(f"Epoch {epoch + 1}, MSE: {mse}")
         
-    
+        self.error = np.array(epoch_errors)
+        return self.error
+        
 
 
-inputs_bits = np.array(
-    [
-        [0, 0],
-        [1, 0],
-        [0, 1],
-        [1, 1],
-    ]
-)
 
-output_XOR = np.array([0, 1, 1, 0])
 
-mlp = SgdMLP(
-    layers=[(2, 3, "leaky_relu"), (3, 2, "leaky_relu"), (2, 1, "sigmoid")],
-    learning_rate=0.5,
-)
-mlp.train(inputs_bits, output_XOR, epochs=5000, error_tolerance=0.01)
-
-for x, y in zip(inputs_bits, output_XOR):
-    y_pred = mlp.predict(x)
-    binary = 1 if y_pred[0] >= 0.5 else 0
-    print(f"Input: {x} | Esperado: {y} | Predicho: {binary}")

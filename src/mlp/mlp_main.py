@@ -1,6 +1,6 @@
 import numpy as np
 
-from layer import Layer
+from .layer import Layer
 
 
 
@@ -101,11 +101,4 @@ class MLP:
     
     
     
-inputs_bits = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-outputs_bits = np.array([[0], [1], [1], [0]])
 
-mlp = MLP(layers=[(2, 4, 'leaky_relu'),(4, 3, 'leaky_relu'), (3, 1, 'sigmoid')], learning_rate=0.5)
-mlp.train(inputs_bits, outputs_bits, epochs=1000, batch_size=4, error_tolerance=0.01)
-
-for i in range(len(inputs_bits)):
-    print(f"Input: {inputs_bits[i]}, Predicted Output: {mlp.predict(inputs_bits[i])}, Actual Output: {outputs_bits[i]}")

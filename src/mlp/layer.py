@@ -2,7 +2,7 @@ import math
 
 import numpy as np
 
-from act_functions import leaky_relu, relu, sigmoid
+from .act_functions import leaky_relu, relu, sigmoid
 
 
 class Layer:

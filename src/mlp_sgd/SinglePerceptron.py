@@ -1,7 +1,8 @@
 import math
 import numpy as np
 
-import funcs
+from . import funcs
+
 
 
 class SinglePerceptron:

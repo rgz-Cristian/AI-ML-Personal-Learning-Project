@@ -1,6 +1,6 @@
 import numpy as np
-from SinglePerceptron import SinglePerceptron
-import funcs
+from .SinglePerceptron import SinglePerceptron
+from . import funcs
 
 
 class Layer:

@@ -1,14 +1,21 @@
-
-# Folders to ignore
-
+# --- Entorno Virtual (creado en la raíz del proyecto) ---
 Include/
 Lib/
-Libs/
 Scripts/
-__pycache__/
 share/
+pyvenv.cfg
 
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
 
-# Files to ignore
-*.log
-*.cfg
+# --- Jupyter Notebooks ---
+.ipynb_checkpoints/
+
+# --- Herramientas e IDE ---
+.vscode/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
