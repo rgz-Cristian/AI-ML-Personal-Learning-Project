@@ -63,7 +63,6 @@ class SgdMLP:
         
         for epoch in range(epochs):
             epoch_loss = 0
-            # Evitamos sobreescribir 'y' usando 'target'
             for x, target in zip(X, y):
                 self.predict(x)
                 loss = np.mean((target - self.y_output[-1]) ** 2)

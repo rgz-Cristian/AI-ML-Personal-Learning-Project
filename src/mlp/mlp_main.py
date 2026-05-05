@@ -36,18 +36,27 @@ class MLP:
         return X_input
 
     def train(self, X, y, epochs, batch_size, error_tolerance=0.05):
-        
+        epoch_errors = []
         
         for epoch in range(epochs):
-            mse = 0
+            epoch_loss = 0
             for i in range(0, len(X), batch_size):
                 X_batch = X[i:i + batch_size]
-                y_batch = y[i:i + batch_size]
-                self.forward(X_batch)
                 
-                mse = 0.5 * (np.sum((y_batch - self.forward(X_batch)) ** 2))
+                # Aseguramos que y_batch sea un vector columna (N, 1) para evitar fallos de broadcasting
+                y_batch = y[i:i + batch_size].reshape(-1, 1)
+                
+                y_pred = self.forward(X_batch)
+                
+                # Acumulación de error (MSE local del batch)
+                loss = 0.5 * np.sum((y_batch - y_pred) ** 2)
+                epoch_loss += loss
 
                 self.backward(X_batch, y_batch)
+            
+            # MSE global por época
+            mse = epoch_loss / len(X)
+            epoch_errors.append(mse)
             
             if epoch % 10 == 0:
                 print(f"Epoch {epoch}, MSE: {mse}")
@@ -55,7 +64,8 @@ class MLP:
             if mse < error_tolerance:
                 print(f"Last epoch: {epoch} with MSE: {mse}")
                 break
-            
+                
+        return np.array(epoch_errors)
 
     def backward(self, X, y):
         
@@ -68,6 +78,7 @@ class MLP:
 
         a_last_layer = self.layers[-1].input_x if len(self.layers) > 1 else X
         
+        # Ojo: a_last_layer lleva .T (transpuesta)
         self.layers[-1].matrix += self.learning_rate * np.dot(a_last_layer.T, delta)
         self.layers[-1].biases += self.learning_rate * np.sum(delta, axis=0, keepdims=True)
 
@@ -75,8 +86,7 @@ class MLP:
         for i in range(len(self.layers) - 2, -1, -1):
             layer = self.layers[i]
             
-            
-            delta = np.dot(delta, self.layers[i + 1].matrix.T) * self.layers[i - 1].function(layer.output_z, True)
+            delta = np.dot(delta, self.layers[i + 1].matrix.T) * layer.function(layer.output_z, True)
                 
             layer.matrix += self.learning_rate * np.dot(layer.input_x.T, delta)
             layer.biases += self.learning_rate * np.sum(delta, axis=0, keepdims=True)
