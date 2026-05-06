@@ -2,7 +2,7 @@
 
 Este repositorio contiene un proyecto de aprendizaje personal sobre los fundamentos matemáticos y de programación detrás de las Redes Neuronales Artificiales, específicamente el **Multilayer Perceptron (MLP)**. Se han codificado desde cero usando únicamente **Python** y **NumPy**.
 
-A lo largo del proyecto, se presentan dos enfoques distintos para resolver el mismo problema (como el problema lógico del XOR), documentando la evolución desde una arquitectura conceptual hasta una aproximación algebraica más profesional.
+A lo largo del proyecto, se presentan dos enfoques distintos para resolver el mismo problema (como el problema lógico del XOR), también se incluyeron problemas clásicos de la literatura como la clasificacion multietiqueta de Iris y la clasificación binaria de la nube de puntos centrada, documentando la evolución desde una arquitectura conceptual hasta una aproximación algebraica más profesional.
 
 ---
 
@@ -216,5 +216,34 @@ Plataforma **DataCamp**:
 **Otras:**
 
 - Asigntura de "Procesamiento de Señales Digitales II".
+
+---
+
+### 🔧 Instalación:
+
+Sigue estos pasos para clonar el repositorio, instalar las dependencias necesarias y ejecutar los notebooks Jupyter.
+
+Abre tu terminal y ejecuta:
+
+```bash
+git clone https://github.com/rgz-Cristian/AI-ML-Personal-Learning-Project.git
+```
+
+```bash
+# Crear entorno virtual
+python -m venv venv
+
+# Activar entorno virtual
+# En Windows:
+venv\Scripts\activate
+
+# En macOS / Linux:
+source venv/bin/activate
+
+# Instalar dependencias
+pip install -r requirements.txt
+```
+
+Nota: El objetivo principal es la implementación de los MLPs mas que el uso que le doy, los .ipynb son meras pruebas de capacidad de mis modelos.
 
 ---
