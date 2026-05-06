@@ -2,7 +2,7 @@ import math
 
 import numpy as np
 
-from .act_functions import leaky_relu, relu, sigmoid
+from .act_functions import leaky_relu, relu, sigmoid, softmax
 
 
 class Layer:
@@ -19,6 +19,8 @@ class Layer:
             return relu
         elif function == 'leaky_relu':
             return leaky_relu
+        elif function == 'softmax':
+            return softmax
         else:
             raise ValueError(f"Unsupported activation function: {function}")
     

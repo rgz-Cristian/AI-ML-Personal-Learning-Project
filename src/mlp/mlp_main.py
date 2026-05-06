@@ -42,9 +42,11 @@ class MLP:
             epoch_loss = 0
             for i in range(0, len(X), batch_size):
                 X_batch = X[i:i + batch_size]
-                
-                # Aseguramos que y_batch sea un vector columna (N, 1) para evitar fallos de broadcasting
-                y_batch = y[i:i + batch_size].reshape(-1, 1)
+              
+                if len(y.shape) == 1:
+                    y_batch = y[i:i + batch_size].reshape(-1, 1)
+                else:
+                    y_batch = y[i:i + batch_size]
                 
                 y_pred = self.forward(X_batch)
                 
