@@ -1,8 +1,5 @@
 # --- Entorno Virtual (creado en la raíz del proyecto) ---
-Include/
-Lib/
-Scripts/
-share/
+.venv/
 pyvenv.cfg
 
 # --- Python ---
